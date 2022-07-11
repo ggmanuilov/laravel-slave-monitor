@@ -110,6 +110,6 @@ class ReplicationMonitor extends Command
     private function printStatus(array $config, ?\stdClass $resp)
     {
         $reason = $this->reason($resp);
-        $this->info($config['host'].' '.$reason);
+        $this->info('DatabaseManager '.$config['host'].' status '.($reason ?: 'ok'));
     }
 }
