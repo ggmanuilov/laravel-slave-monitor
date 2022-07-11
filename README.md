@@ -1,5 +1,7 @@
 ## How it working
 
+Automatic disabling/enabling of replication servers in case of their shutdown or lagging behind/recovering from the source(master) server.
+
 ### Requirements
 
 - mysql/mariadb database
@@ -7,7 +9,7 @@
 
 `php artisan monitor:db-replication` - check behind read server from master and ban it.
 
-Ban server if:
+Disable server if:
 - server not available
 - param `Seconds_Behind_Master` more config params `behind_master` 
 
