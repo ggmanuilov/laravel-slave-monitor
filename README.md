@@ -39,7 +39,7 @@ Need to add multiple `read` servers in `config/database.php`
 ### Installation
 
 ```
-composer require ggmanuilov/laravel-slave-db-monitor
+composer require ggmanuilov/laravel-slave-monitor
 ```
 
 1. Registry service provider in `config/app.php`
