@@ -1,0 +1,19 @@
+{
+    "name": "ggmanuilov/laravel-slave-monitor",
+    "type": "package",
+    "require": {
+        "php": "^8.0"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Ggmanuilov\\LaravelSlaveMonitor\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Grigoriy Manuylov",
+            "email": "ggmanuilov@gmail.com"
+        }
+    ]
+}
