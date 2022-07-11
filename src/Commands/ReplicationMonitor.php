@@ -74,8 +74,7 @@ class ReplicationMonitor extends Command
 
     private function writeToLogger(array $config, $resp)
     {
-        if (!$resp || $resp->Seconds_Behind_Master > $this->behind_master) {
-            $reason = $this->reason($resp);
+        if ($reason = $this->reason($resp)) {
             \Log::alert('DatabaseManager ban replications server', [
                 'host'   => $config['host'],
                 'reason' => $reason,
@@ -85,17 +84,25 @@ class ReplicationMonitor extends Command
 
     private function deactivate(array $config, $resp)
     {
-        \Cache::remember(config('database-slave-monitor.cache_key').$config['host'], now()->addSeconds($this->cache_ban_timeout), function () use ($config) {
-            return true;
-        });
+        \Cache::remember(config('database-slave-monitor.cache_key').$config['host'],
+            now()->addSeconds($this->cache_ban_timeout),
+            function () use ($config) {
+                return true;
+            });
         $this->writeToLogger($config, $resp);
     }
 
     private function reason(?\stdClass $resp): string
     {
-        $message = ' not available ';
+        $message = 'not available ';
         if ($resp) {
-            $message = 'behind on '.$resp->Seconds_Behind_Master.' sec.';
+            $message = '';
+            if (is_null($resp->Seconds_Behind_Master)) {
+                $message = 'invalid behind response "NULL"';
+            }
+            if ($resp->Seconds_Behind_Master > $this->behind_master) {
+                $message = sprintf('behind on "%s" sec.', $resp->Seconds_Behind_Master);
+            }
         }
         return $message;
     }
