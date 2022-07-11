@@ -13,7 +13,7 @@ class ReplicationMonitor extends Command
      *
      * @var string
      */
-    protected $signature = 'monitor:db-replication {--show-status=0}';
+    protected $signature = 'monitor:db-replication';
 
     /**
      * The console command description.
@@ -54,6 +54,8 @@ class ReplicationMonitor extends Command
                     $this->deactivate($config, $resp);
                 }
             }
+        } else {
+            \Log::info('DatabaseManager read server list is empty.');
         }
 
         return 0;
@@ -100,9 +102,7 @@ class ReplicationMonitor extends Command
 
     private function printStatus(array $config, ?\stdClass $resp)
     {
-        if (in_array($this->option('show-status', 0), ['y', 'Y', '1', 'true'])) {
-            $reason = $this->reason($resp);
-            $this->info($config['host'].' '.$reason);
-        }
+        $reason = $this->reason($resp);
+        $this->info($config['host'].' '.$reason);
     }
 }
